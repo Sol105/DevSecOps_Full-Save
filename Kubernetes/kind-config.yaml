@@ -64,6 +64,14 @@ nodes:
     listenAddress: "0.0.0.0"
     protocol: TCP
 
+  # SonarQube 웹 인터페이스 포트
+  # - 코드 품질 분석 웹 UI
+  # - 호스트 접근: http://localhost:30900
+  - containerPort: 30900
+    hostPort: 30900
+    listenAddress: "0.0.0.0"
+    protocol: TCP
+
 # 워커 노드 1: 웹서버
 - role: worker
   labels:
