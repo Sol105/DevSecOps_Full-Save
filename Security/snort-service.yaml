@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: snort-service
+  namespace: security
+spec:
+  selector:
+    app: snort
+  ports:
+  - port: 1234  # Snort 관리용 포트
+    targetPort: 1234
+    nodePort: 31234
+  type: NodePort 

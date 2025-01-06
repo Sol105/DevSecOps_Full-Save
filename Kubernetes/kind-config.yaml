@@ -90,11 +90,11 @@ nodes:
     node-type: backup-db
     purpose: backup-storage
 
-# 워커 노드 4: ELK
+# 워커 노드 4: 보안 프로그램
 - role: worker
   labels:
-    node-type: elk
-    purpose: elk-stack
+    node-type: security
+    purpose: wazuh-snort
 
 # 워커 노드 5: 로그 DB
 - role: worker

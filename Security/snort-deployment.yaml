@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: snort
+  namespace: security
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: snort
+  template:
+    metadata:
+      labels:
+        app: snort
+    spec:
+      nodeSelector:
+        node-type: security
+      containers:
+      - name: snort
+        image: linton/docker-snort:latest
+        command: ["/bin/bash", "-c"]
+        args: 
+        - |
+          # Create snort user and group if they don't exist
+          addgroup --system snort || true
+          adduser --system --no-create-home --ingroup snort snort || true
+          # Run snort
+          /usr/local/bin/snort -q -u snort -g snort -c /etc/snort/snort.conf -i eth0
+        securityContext:
+          privileged: true  # 네트워크 패킷 캡처를 위해 필요
+          capabilities:
+            add: ["NET_ADMIN", "NET_RAW"]
+        volumeMounts:
+        - name: snort-config
+          mountPath: /etc/snort/snort.conf
+          subPath: snort.conf
+        - name: pcap-volume
+          mountPath: /var/log/snort
+      volumes:
+      - name: snort-config
+        configMap:
+          name: snort-config
+      - name: pcap-volume
+        emptyDir: {} 

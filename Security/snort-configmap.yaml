@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: snort-config
+  namespace: security
+data:
+  snort.conf: |
+    # Snort 기본 설정
+    var HOME_NET any
+    var EXTERNAL_NET any
+    var RULE_PATH /etc/snort/rules
+    
+    # 기본 전처리기 설정
+    preprocessor frag3_global
+    preprocessor frag3_engine
+    preprocessor stream5_global
+    preprocessor stream5_tcp
+    preprocessor stream5_udp
+    
+    # 기본 규칙 포함
+    include $RULE_PATH/local.rules
