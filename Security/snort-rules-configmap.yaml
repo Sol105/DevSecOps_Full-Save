@@ -5,4 +5,8 @@ metadata:
   namespace: security
 data:
   local.rules: |
-    alert icmp any any -> any any (msg:"ICMP Ping detected"; itype:8; sid:1000001;) 
+    alert icmp any any -> any any (msg:"ICMP Ping detected"; itype:8; sid:1000001;)
+    alert tcp any any -> any 80 (msg:"HTTP traffic detected"; sid:1000002;)
+    alert tcp any any -> any 443 (msg:"HTTPS traffic detected"; sid:1000003;)
+    alert tcp any any -> any 80 (msg:"HTTP GET request detected"; flow:to_server,established; content:"GET"; http_method; sid:1000004;)
+    alert tcp any any -> any 443 (msg:"HTTPS GET request detected"; flow:to_server,established; content:"GET"; http_method; sid:1000005;)
