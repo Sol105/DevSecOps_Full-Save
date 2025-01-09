@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: snort-rules
+  namespace: security
+data:
+  local.rules: |
+    alert icmp any any -> any any (msg:"ICMP Ping detected"; itype:8; sid:1000001;) 

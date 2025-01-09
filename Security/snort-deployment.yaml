@@ -17,7 +17,7 @@ spec:
         node-type: security
       containers:
       - name: snort
-        image: linton/docker-snort:latest
+        image: owasp/snort:latest
         command: ["/bin/bash", "-c"]
         args: 
         - |
@@ -36,9 +36,22 @@ spec:
           subPath: snort.conf
         - name: pcap-volume
           mountPath: /var/log/snort
+        - name: snort-rules
+          mountPath: /etc/snort/rules/local.rules
+          subPath: local.rules
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
       volumes:
       - name: snort-config
         configMap:
           name: snort-config
       - name: pcap-volume
-        emptyDir: {} 
+        emptyDir: {}
+      - name: snort-rules
+        configMap:
+          name: snort-rules 
